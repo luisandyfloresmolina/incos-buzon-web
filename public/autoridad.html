@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="referrer" content="no-referrer" />
+  <title>Autoridades · Buzón INCOS</title>
+  <link rel="stylesheet" href="/assets/estilos.css" />
+  <link rel="icon" type="image/jpeg" href="/assets/logo-sia.jpeg" />
+</head>
+<body>
+  <header class="encabezado">
+    <div class="contenedor">
+      <div class="marca">
+        <img class="logo" src="/assets/logo-sia.jpeg" alt="Instituto Tecnológico INCOS-Beni" />
+        <div>
+          <h1>Buzón de quejas</h1>
+          <p>Acceso de autoridades</p>
+        </div>
+      </div>
+      <nav class="navegacion">
+        <a href="/" class="activo">Acceso único</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="contenedor">
+
+      <!-- ===================================================== login -->
+      <section id="panel-login" class="tarjeta" style="max-width: 520px; margin: 0 auto;">
+        <h2>Ingreso de autoridades</h2>
+        <p class="subtitulo">
+          Escriba su CI del SIA (por ejemplo, <strong>DOC-003</strong>) y su clave.
+          No necesita correo electrónico ni el símbolo @.
+        </p>
+
+        <div id="aviso-login" class="oculto"></div>
+
+        <form id="formulario-login">
+          <div class="campo">
+            <label for="identificador">CI o correo institucional</label>
+            <input type="text" id="identificador" autocomplete="username" placeholder="DOC-003" />
+          </div>
+          <div class="campo">
+            <label for="clave">Clave</label>
+            <input type="password" id="clave" autocomplete="current-password" />
+          </div>
+          <button type="submit" id="ingresar" class="boton grande">Ingresar</button>
+        </form>
+
+        <p class="ayuda mt">
+          Solo pueden ingresar las personas que ocupan un cargo marcado como autoridad.
+          El sistema valida el token contra el SIA y no guarda sus credenciales.
+          ¿Es administrador o comité? <a href="/">Ingrese por el acceso único</a>.
+        </p>
+      </section>
+
+      <!-- =================================================== bandeja -->
+      <section id="panel-bandeja" class="oculto">
+        <!-- perfil -->
+        <div class="tarjeta barra-autoridad">
+          <div class="barra-autoridad-info">
+            <div class="avatar-autoridad" id="inicial-autoridad">A</div>
+            <div>
+              <h2>Bandeja de quejas</h2>
+              <p class="subtitulo">
+                <span id="nombre-autoridad">—</span> ·
+                <span id="cargos-autoridad">—</span>
+              </p>
+            </div>
+          </div>
+          <button class="boton secundario" id="salir" type="button">Cerrar sesión</button>
+        </div>
+
+        <!-- resumen -->
+        <div class="resumen-autoridad">
+          <div class="resumen-item">
+            <strong id="total-quejas">0</strong>
+            <span>Total recibidas</span>
+          </div>
+          <div class="resumen-item pendiente">
+            <strong id="total-pendientes">0</strong>
+            <span>Pendientes</span>
+          </div>
+          <div class="resumen-item revision">
+            <strong id="total-revision">0</strong>
+            <span>En revisión</span>
+          </div>
+          <div class="resumen-item proceso">
+            <strong id="total-proceso">0</strong>
+            <span>En proceso</span>
+          </div>
+          <div class="resumen-item cerrada">
+            <strong id="total-cerradas">0</strong>
+            <span>Cerradas</span>
+          </div>
+        </div>
+
+        <div class="bandeja-layout">
+          <!-- lista -->
+          <div class="tarjeta bandeja-panel">
+            <div class="bandeja-cabecera">
+              <div>
+                <h3>Quejas recibidas</h3>
+                <p class="texto-pequeno texto-suave" id="bandeja-contador">—</p>
+              </div>
+            </div>
+
+            <div class="busqueda-quejas">
+              <input type="search" id="buscar-quejas"
+                placeholder="Buscar por número, categoría o texto…" autocomplete="off" />
+            </div>
+
+            <div class="filtros-estado" id="filtros-estado">
+              <button type="button" class="chip activo" data-filtro="TODAS">Todas</button>
+              <button type="button" class="chip" data-filtro="PENDIENTE">Pendientes</button>
+              <button type="button" class="chip" data-filtro="EN_REVISION">En revisión</button>
+              <button type="button" class="chip" data-filtro="EN_PROCESO">En proceso</button>
+              <button type="button" class="chip" data-filtro="CERRADA">Cerradas</button>
+            </div>
+
+            <div id="lista-quejas" class="lista-quejas">
+              <p class="texto-suave">Cargando…</p>
+            </div>
+          </div>
+
+          <!-- detalle -->
+          <div class="detalle-panel">
+            <div id="detalle-vacio" class="tarjeta detalle-vacio">
+              <div class="detalle-vacio-icono">✉</div>
+              <h3>Seleccione una queja</h3>
+              <p class="texto-suave">
+                Elija una tarjeta de la lista para ver la descripción, la evidencia
+                y el historial de la queja.
+              </p>
+            </div>
+
+            <div id="detalle" class="tarjeta oculto">
+              <div class="detalle-cabecera">
+                <div>
+                  <p class="detalle-etiqueta">Detalle de la queja</p>
+                  <h2 id="detalle-titulo">Queja</h2>
+                  <div id="detalle-meta" class="detalle-meta"></div>
+                </div>
+                <span id="detalle-estado"></span>
+              </div>
+
+              <div class="detalle-descripcion">
+                <h3>Descripción de los hechos</h3>
+                <div id="detalle-texto" class="texto-queja"></div>
+              </div>
+
+              <h3>Evidencia</h3>
+              <div id="detalle-adjuntos" class="galeria-adjuntos"></div>
+
+              <hr class="separador" />
+              <h3>Historial</h3>
+              <ul class="linea-tiempo" id="detalle-historial"></ul>
+
+              <hr class="separador" />
+              <h3>Mensajes</h3>
+              <div id="detalle-mensajes" class="hilo-mensajes"></div>
+
+              <div id="responder">
+                <form id="formulario-respuesta">
+                  <div class="campo">
+                    <label for="respuesta-texto">Responder al denunciante</label>
+                    <textarea id="respuesta-texto" maxlength="4000" style="min-height: 100px;"></textarea>
+                  </div>
+                  <button type="submit" id="enviar-respuesta" class="boton">Enviar respuesta</button>
+                </form>
+              </div>
+
+              <hr class="separador" />
+              <div id="asignacion" class="oculto">
+                <h3>Asignar a otra autoridad</h3>
+                <p class="ayuda">
+                  La queja saldrá de su bandeja y pasará a la autoridad seleccionada.
+                  Usted seguirá viendo todas las quejas como Rectora.
+                </p>
+                <div class="fila-botones">
+                  <div class="campo" style="margin: 0; min-width: 260px;">
+                    <label for="destino-asignacion">Autoridad destino</label>
+                    <select id="destino-asignacion"></select>
+                  </div>
+                  <button class="boton" id="asignar-queja" type="button">Asignar queja</button>
+                </div>
+              </div>
+
+              <hr class="separador" />
+              <div class="fila-botones">
+                <div class="campo" style="margin: 0; min-width: 220px;">
+                  <label for="nuevo-estado">Cambiar estado</label>
+                  <select id="nuevo-estado">
+                    <option value="PENDIENTE">Pendiente</option>
+                    <option value="EN_REVISION">En revisión</option>
+                    <option value="EN_PROCESO">En proceso</option>
+                    <option value="CERRADA">Cerrada</option>
+                  </select>
+                </div>
+                <button class="boton secundario" id="guardar-estado" type="button">Guardar estado</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <footer class="pie">Buzón de quejas · Instituto INCOS</footer>
+  <script type="module" src="/assets/autoridad.js"></script>
+</body>
+</html>

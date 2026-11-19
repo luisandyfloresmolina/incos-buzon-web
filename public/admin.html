@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="referrer" content="no-referrer" />
+  <title>Administración · Buzón INCOS</title>
+  <link rel="stylesheet" href="/assets/estilos.css" />
+  <link rel="icon" type="image/jpeg" href="/assets/logo-sia.jpeg" />
+</head>
+<body>
+  <header class="encabezado">
+    <div class="contenedor">
+      <div class="marca">
+        <img class="logo" src="/assets/logo-sia.jpeg" alt="Instituto Tecnológico INCOS-Beni" />
+        <div>
+          <h1>Buzón de quejas</h1>
+          <p>Cuentas locales · Administración y comité</p>
+        </div>
+      </div>
+      <nav class="navegacion">
+        <a href="/" class="activo">Acceso único</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="contenedor">
+
+      <!-- ===================================================== login -->
+      <section id="panel-login-admin" class="tarjeta" style="max-width: 480px; margin: 0 auto;">
+        <h2>Acceso administrativo</h2>
+        <p class="subtitulo">
+          Solo para cuentas locales de administración y comité.
+        </p>
+
+        <div class="alerta aviso">
+          <strong>¿Es autoridad del SIA (Rector, Académico, etc.)?</strong>
+          No use este formulario. Entre por el
+          <a href="/">acceso único</a> con su CI, por ejemplo
+          <strong>DOC-003</strong>.
+        </div>
+
+        <div id="aviso-login-admin" class="oculto"></div>
+
+        <form id="formulario-login-admin">
+          <div class="campo">
+            <label for="correo-admin">Correo de la cuenta local</label>
+            <input type="text" id="correo-admin" autocomplete="username" inputmode="email" placeholder="admin@buzon.incos" />
+          </div>
+          <div class="campo">
+            <label for="clave-admin">Clave</label>
+            <input type="password" id="clave-admin" autocomplete="current-password" />
+          </div>
+          <button type="submit" id="ingresar-admin" class="boton grande">Ingresar</button>
+        </form>
+
+        <p class="ayuda mt">
+          El administrador técnico no puede leer el texto de las quejas; solo revisar
+          las imágenes de evidencia. ¿Es autoridad?
+          <a href="/">Ingrese con su CI del SIA en el acceso único</a>.
+        </p>
+      </section>
+
+      <!-- ===================================================== panel -->
+      <section id="panel-admin" class="oculto">
+        <div class="tarjeta">
+          <div class="fila-botones" style="justify-content: space-between;">
+            <div>
+              <h2 style="margin: 0;">Panel administrativo</h2>
+              <p class="subtitulo" style="margin: 4px 0 0;">
+                <span id="nombre-admin">—</span> · <span id="rol-admin">—</span>
+              </p>
+            </div>
+            <button class="boton secundario" id="salir-admin" type="button">Cerrar sesión</button>
+          </div>
+        </div>
+
+        <div class="pestanas" id="pestanas">
+          <button data-pestana="categorias" class="activa">Categorías</button>
+          <button data-pestana="reglas" class="oculto">Derivación</button>
+          <button data-pestana="usuarios">Cuentas</button>
+          <button data-pestana="parametros">Parámetros</button>
+          <button data-pestana="evidencias">Evidencias</button>
+          <button data-pestana="qr">Códigos QR</button>
+          <button data-pestana="auditoria">Auditoría</button>
+          <button data-pestana="estadisticas">Estadísticas</button>
+        </div>
+
+        <!-- ------------------------------------------------ categorías -->
+        <section id="seccion-categorias" class="tarjeta">
+          <div class="alerta aviso">
+            <strong>Las categorías solo clasifican.</strong>
+            Todas las quejas llegan a la Rectora, quien las asigna desde su bandeja
+            a la autoridad que corresponda.
+          </div>
+          <h3 id="titulo-categoria">Nueva categoría</h3>
+          <div id="aviso-categoria" class="oculto"></div>
+
+          <form id="formulario-categoria">
+            <input type="hidden" id="cat-id" />
+            <div class="rejilla">
+              <div class="campo">
+                <label for="cat-nombre">Nombre</label>
+                <input type="text" id="cat-nombre" maxlength="80" />
+              </div>
+              <div class="campo">
+                <label for="cat-descripcion">Descripción</label>
+                <input type="text" id="cat-descripcion" maxlength="200" />
+              </div>
+            </div>
+            <div class="fila-botones">
+              <button type="submit" class="boton" id="cat-guardar">Agregar categoría</button>
+              <button type="button" class="boton secundario oculto" id="cat-cancelar">Cancelar edición</button>
+            </div>
+          </form>
+
+          <hr class="separador" />
+
+          <div class="tabla-envoltura">
+            <table class="tabla">
+              <thead>
+                <tr><th>Categoría</th><th>Descripción</th><th>Quejas</th><th>Estado</th><th>Acciones</th></tr>
+              </thead>
+              <tbody id="cuerpo-categorias"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- --------------------------------------------------- reglas -->
+        <section id="seccion-reglas" class="tarjeta oculto">
+          <h3>Cadena de derivación</h3>
+          <p class="subtitulo">
+            Orden de receptores por categoría. Si la queja señala a una autoridad, esa
+            persona se salta automáticamente. El último eslabón puede ser externo.
+          </p>
+
+          <div class="campo" style="max-width: 420px;">
+            <label for="reglas-categoria">Categoría</label>
+            <select id="reglas-categoria"></select>
+          </div>
+
+          <div id="reglas-lista"></div>
+
+          <div class="fila-botones mt">
+            <button class="boton secundario" id="agregar-regla" type="button">Agregar eslabón</button>
+            <button class="boton" id="guardar-reglas" type="button">Guardar cadena</button>
+          </div>
+        </section>
+
+        <!-- ------------------------------------------------- usuarios -->
+        <section id="seccion-usuarios" class="tarjeta oculto">
+          <h3>Nueva cuenta local</h3>
+          <p class="subtitulo">
+            Solo para administración y comité. Las autoridades del SIA no se crean aquí:
+            ingresan con su CI en el <a href="/">acceso único</a>.
+          </p>
+          <div id="aviso-usuario" class="oculto"></div>
+
+          <form id="formulario-usuario">
+            <div class="rejilla">
+              <div class="campo">
+                <label for="u-nombres">Nombres</label>
+                <input type="text" id="u-nombres" />
+              </div>
+              <div class="campo">
+                <label for="u-apellidos">Apellidos</label>
+                <input type="text" id="u-apellidos" />
+              </div>
+              <div class="campo">
+                <label for="u-correo">Correo local</label>
+                <input type="email" id="u-correo" />
+              </div>
+              <div class="campo">
+                <label for="u-clave">Clave inicial (mínimo 10)</label>
+                <input type="password" id="u-clave" autocomplete="new-password" />
+              </div>
+              <div class="campo">
+                <label for="u-rol">Rol</label>
+                <select id="u-rol">
+                  <option value="ADMIN_TECNICO">ADMIN_TECNICO</option>
+                  <option value="COMITE">COMITE</option>
+                </select>
+              </div>
+            </div>
+            <button type="submit" class="boton" id="u-guardar">Crear cuenta</button>
+          </form>
+
+          <hr class="separador" />
+
+          <div class="tabla-envoltura">
+            <table class="tabla">
+              <thead>
+                <tr><th>Nombre</th><th>Correo</th><th>Rol</th><th>Estado</th><th>Acciones</th></tr>
+              </thead>
+              <tbody id="cuerpo-usuarios"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ----------------------------------------------- parámetros -->
+        <section id="seccion-parametros" class="tarjeta oculto">
+          <h3>Parámetros del sistema</h3>
+          <div id="aviso-parametros" class="oculto"></div>
+
+          <div class="rejilla">
+            <div class="campo">
+              <label for="p-plazo">Plazo de atención (días)</label>
+              <input type="number" id="p-plazo" min="1" max="60" />
+            </div>
+            <div class="campo">
+              <label for="p-adjuntos">Máximo de adjuntos (0 a 3)</label>
+              <input type="number" id="p-adjuntos" min="0" max="3" />
+            </div>
+            <div class="campo">
+              <label for="p-mb">Tamaño máximo por adjunto (MB)</label>
+              <input type="number" id="p-mb" min="1" max="10" />
+            </div>
+          </div>
+
+          <button class="boton" id="guardar-parametros" type="button">Guardar parámetros</button>
+        </section>
+
+        <!-- ------------------------------------------------ evidencias -->
+        <section id="seccion-evidencias" class="tarjeta oculto">
+          <h3>Evidencias de las quejas</h3>
+          <p class="subtitulo">
+            Imágenes adjuntas por los denunciantes. El administrador puede revisarlas,
+            pero el texto de la queja sigue fuera de su alcance.
+          </p>
+
+          <div id="aviso-evidencias" class="oculto"></div>
+          <div id="rejilla-evidencias" class="rejilla-evidencias"></div>
+
+          <div class="fila-botones mt">
+            <button type="button" class="boton secundario" id="evidencias-anterior">Anterior</button>
+            <span class="texto-suave texto-pequeno" id="evidencias-pagina"></span>
+            <button type="button" class="boton secundario" id="evidencias-siguiente">Siguiente</button>
+          </div>
+        </section>
+
+        <!-- ------------------------------------------------ códigos QR -->
+        <section id="seccion-qr" class="tarjeta oculto">
+          <h1 class="solo-impresion">Buzón de quejas · INCOS</h1>
+          <h3>Códigos QR para denunciantes</h3>
+          <p class="subtitulo">
+            Imprima estos códigos y colóquelos en el instituto. Llevan directo al
+            formulario de queja y a la consulta, sin pasar por el portal del personal.
+          </p>
+
+          <div class="qr-rejilla">
+            <figure class="qr-caja">
+              <div class="qr-lienzo" id="qr-queja"></div>
+              <figcaption>
+                <strong>Enviar una queja</strong>
+                <span class="texto-suave texto-pequeno" id="qr-url-queja"></span>
+              </figcaption>
+            </figure>
+            <figure class="qr-caja">
+              <div class="qr-lienzo" id="qr-consulta"></div>
+              <figcaption>
+                <strong>Consultar mi queja</strong>
+                <span class="texto-suave texto-pequeno" id="qr-url-consulta"></span>
+              </figcaption>
+            </figure>
+          </div>
+
+          <div class="fila-botones mt">
+            <button class="boton" id="imprimir-qr" type="button">Imprimir cartel</button>
+            <button class="boton secundario" id="guardar-qr" type="button">Descargar SVG</button>
+          </div>
+
+          <p class="texto-pequeno texto-suave mt">
+            Sugerencia: imprima en tamaño carta y péguelo en dirección, biblioteca y aulas.
+          </p>
+        </section>
+
+        <!-- ------------------------------------------------ auditoría -->
+        <section id="seccion-auditoria" class="tarjeta oculto">
+          <h3>Registro de auditoría</h3>
+          <p class="subtitulo">
+            Uso del sistema. Nunca incluye el contenido de una queja.
+          </p>
+
+          <div class="tabla-envoltura">
+            <table class="tabla">
+              <thead>
+                <tr><th>#</th><th>Fecha</th><th>Usuario</th><th>Acción</th><th>Entidad</th></tr>
+              </thead>
+              <tbody id="cuerpo-auditoria"></tbody>
+            </table>
+          </div>
+
+          <div class="fila-botones mt">
+            <button class="boton secundario" id="aud-anterior" type="button">Anterior</button>
+            <span class="texto-suave texto-pequeno" id="aud-pagina">Página 1</span>
+            <button class="boton secundario" id="aud-siguiente" type="button">Siguiente</button>
+          </div>
+        </section>
+
+        <!-- --------------------------------------------- estadísticas -->
+        <section id="seccion-estadisticas" class="tarjeta oculto">
+          <h3>Estadísticas</h3>
+          <p class="subtitulo">Conteos agregados. No se muestra ningún contenido.</p>
+
+          <div class="rejilla mb">
+            <div class="campo">
+              <label>Total de quejas</label>
+              <div style="font-size: 34px; font-weight: 700;" id="total-quejas">0</div>
+            </div>
+          </div>
+
+          <h3>Por estado</h3>
+          <div id="est-por-estado"></div>
+
+          <hr class="separador" />
+          <h3>Por categoría</h3>
+          <div id="est-por-categoria"></div>
+
+          <hr class="separador" />
+          <h3>Por mes</h3>
+          <div id="est-por-mes"></div>
+        </section>
+
+      </section>
+    </div>
+  </main>
+
+  <footer class="pie">Buzón de quejas · Instituto INCOS</footer>
+  <script type="module" src="/assets/admin.js"></script>
+</body>
+</html>

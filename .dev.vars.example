@@ -1,0 +1,13 @@
+# Copiar a .dev.vars para desarrollo local.
+# En producción estos valores se cargan con: wrangler secret put NOMBRE
+SIA_URL=https://sia-incos-api-production.up.railway.app
+SIA_USUARIO=9000001
+SIA_CLAVE=Demo2026*
+SESSION_SECRET=dev-local-cambiar-en-produccion-0001
+ANON_SALT=dev-local-cambiar-en-produccion-0002
+TURNSTILE_SITE_KEY=
+TURNSTILE_SECRET=
+ENTORNO=local
+# Solo para pruebas y demostración local. En producción usar el valor por defecto (10).
+LIMITE_QUEJAS_HORA=1000
+LIMITE_LOGIN_INTENTOS=1000

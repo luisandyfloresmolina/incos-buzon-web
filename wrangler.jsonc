@@ -1,0 +1,53 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "incos-buzon-web",
+  "main": "src/index.ts",
+  "compatibility_date": "2025-09-01",
+  "compatibility_flags": ["nodejs_compat"],
+
+  // El Worker solo intercepta /api/*. Todo lo demás se sirve como archivo estático.
+  "assets": {
+    "directory": "./public",
+    "binding": "ASSETS",
+    "not_found_handling": "none",
+    "run_worker_first": ["/api/*"]
+  },
+
+  // Sin observabilidad: no se persisten trazas ni peticiones.
+  "observability": { "enabled": false },
+
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "buzon-incos",
+      "database_id": "032ed9c1-2708-4f3f-8359-c425ff49ffc4",
+      "migrations_dir": "migrations"
+    }
+  ],
+
+  // R2 se activa desde el panel de Cloudflare (R2 → Enable).
+  // Mientras no esté activo, las evidencias se guardan en KV (gratis, sin tarjeta).
+  // Cuando R2 esté activo, descomentar el bloque y quitar KV: el código usa R2 primero.
+  // "r2_buckets": [
+  //   { "binding": "ADJUNTOS", "bucket_name": "buzon-adjuntos" }
+  // ],
+  "kv_namespaces": [
+    { "binding": "ADJUNTOS_KV", "id": "a2c283243c304169a8ff06dce11a5fab" }
+  ],
+
+  // Escalamiento diario por plazo de atención (06:00 UTC = 02:00 La Paz).
+  "triggers": { "crons": ["0 6 * * *"] },
+
+  "vars": {
+    "SIA_URL": "https://sia-incos-api-production.up.railway.app",
+    "SIA_USUARIO": "INTEGRACION",
+    "ENTORNO": "demo",
+    "TURNSTILE_SITE_KEY": "0x4AAAAAAGHfGrkcba2VEs8R"
+  }
+
+  // SIA_CLAVE, SESSION_SECRET, ANON_SALT y TURNSTILE_SECRET no van aquí:
+  //   wrangler secret put SIA_CLAVE
+  //   wrangler secret put SESSION_SECRET
+  //   wrangler secret put ANON_SALT
+  //   wrangler secret put TURNSTILE_SECRET
+}

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="referrer" content="no-referrer" />
+  <title>Enviar queja · Buzón INCOS</title>
+  <link rel="stylesheet" href="/assets/estilos.css" />
+  <link rel="icon" type="image/jpeg" href="/assets/logo-sia.jpeg" />
+</head>
+<body>
+  <header class="encabezado">
+    <div class="contenedor">
+      <div class="marca">
+        <img class="logo" src="/assets/logo-sia.jpeg" alt="Instituto Tecnológico INCOS-Beni" />
+        <div>
+          <h1>Buzón de quejas</h1>
+          <p>Instituto INCOS · canal anónimo y seguro</p>
+        </div>
+      </div>
+      <nav class="navegacion">
+        <a href="/queja" class="activo">Enviar queja</a>
+        <a href="/consulta">Consultar</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="contenedor-angosto">
+
+      <!-- ================================================== formulario -->
+      <section id="panel-formulario" class="tarjeta">
+        <h2>Presentar una queja</h2>
+        <p class="subtitulo">
+          Todos los campos personales son opcionales y no se solicitan. Al finalizar
+          recibirá un código para dar seguimiento.
+        </p>
+
+        <div id="aviso-formulario" class="oculto"></div>
+
+        <form id="formulario-queja" novalidate>
+          <div class="rejilla">
+            <div class="campo">
+              <label for="categoria">Categoría <span class="obligatorio">*</span></label>
+              <select id="categoria" name="categoria" required>
+                <option value="">Cargando…</option>
+              </select>
+              <span class="ayuda">Sirve para clasificar la queja. Todas se envían a la Rectora.</span>
+            </div>
+
+            <div class="campo">
+              <label for="cargo-involucrado">¿La queja involucra a alguna autoridad?</label>
+              <select id="cargo-involucrado" name="cargo_involucrado">
+                <option value="">No involucra a ninguna autoridad</option>
+              </select>
+              <span class="ayuda">
+                Si señala a una autoridad, la queja nunca se entrega a esa persona:
+                pasa a la siguiente autoridad.
+              </span>
+            </div>
+
+            <div class="campo ancho">
+              <label for="descripcion">Descripción de los hechos <span class="obligatorio">*</span></label>
+              <textarea id="descripcion" name="descripcion" maxlength="6000"
+                placeholder="Cuente qué pasó, cuándo y dónde. No incluya su nombre, carnet ni datos de contacto."
+                required></textarea>
+              <div class="contador" id="contador">0 / 6000 caracteres (mínimo 30)</div>
+            </div>
+
+            <div class="campo ancho" id="campo-adjuntos">
+              <label for="adjuntos">Evidencia (opcional)</label>
+              <input type="file" id="adjuntos" name="adjuntos" multiple
+                accept="image/jpeg,image/png" />
+              <span class="ayuda" id="limite-adjuntos">Hasta 3 archivos JPG o PNG de 2 MB cada uno.</span>
+              <ul class="lista-plana" id="lista-archivos"></ul>
+              <span class="ayuda">
+                A las imágenes se les elimina la ubicación, la cámara, la fecha y
+                cualquier otro metadato antes de guardarlas.
+              </span>
+            </div>
+          </div>
+
+          <div id="turnstile" class="mb"></div>
+
+          <label class="fila-botones texto-pequeno mb">
+            <input type="checkbox" id="confirmacion" />
+            <span>
+              Entiendo que debo guardar el código de seguimiento: es la única forma de
+              consultar mi queja y no se puede recuperar.
+            </span>
+          </label>
+
+          <button type="submit" id="enviar" class="boton grande">Enviar queja de forma anónima</button>
+        </form>
+      </section>
+
+      <!-- =================================================== resultado -->
+      <section id="resultado" class="tarjeta oculto">
+        <div class="alerta exito">
+          <strong>Queja registrada</strong>
+          Guarde este código. Se muestra una sola vez y no lo podemos recuperar.
+        </div>
+
+        <div class="codigo" id="codigo-generado">—</div>
+
+        <div class="fila-botones mt">
+          <button class="boton secundario" id="copiar-codigo" type="button">Copiar código</button>
+          <button class="boton secundario" id="descargar-codigo" type="button">Descargar .txt</button>
+        </div>
+
+        <hr class="separador" />
+
+        <p class="texto-pequeno texto-suave">
+          Con este código puede consultar el estado y responder mensajes de la autoridad.
+          Si lo pierde, no hay forma de recuperar el seguimiento.
+        </p>
+
+        <a class="boton" href="/consulta">Ir a consultar mi queja</a>
+      </section>
+
+    </div>
+  </main>
+
+  <footer class="pie">
+    Buzón de quejas · Instituto INCOS · Sistema integrado con el SIA
+  </footer>
+
+  <script type="module" src="/assets/formulario.js"></script>
+</body>
+</html>

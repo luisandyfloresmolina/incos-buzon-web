@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="referrer" content="no-referrer" />
+  <title>Consultar queja · INCOS</title>
+  <link rel="stylesheet" href="/assets/estilos.css" />
+  <link rel="icon" type="image/jpeg" href="/assets/logo-sia.jpeg" />
+</head>
+<body>
+  <header class="encabezado">
+    <div class="contenedor">
+      <div class="marca">
+        <img class="logo" src="/assets/logo-sia.jpeg" alt="Instituto Tecnológico INCOS-Beni" />
+        <div>
+          <h1>Buzón de quejas</h1>
+          <p>Consulta con su código de seguimiento</p>
+        </div>
+      </div>
+      <nav class="navegacion">
+        <a href="/queja">Enviar queja</a>
+        <a href="/consulta" class="activo">Consultar</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="contenedor-angosto">
+      <section class="tarjeta">
+        <h2>Consultar el estado de mi queja</h2>
+        <p class="subtitulo">
+          El código se envía de forma segura y no queda en la dirección de la página.
+        </p>
+
+        <div id="aviso-consulta" class="oculto"></div>
+
+        <form id="formulario-consulta">
+          <div class="campo">
+            <label for="codigo">Código de seguimiento</label>
+            <input type="text" id="codigo" placeholder="XXXX-XXXX-XXXX-XXXX-XXXX"
+              autocomplete="off" spellcheck="false" style="font-family: var(--mono); letter-spacing: 0.08em;" />
+            <span class="ayuda">Ejemplo: 7K2M-9QRT-4WXZ-8HNP-3C5V</span>
+          </div>
+          <button type="submit" id="buscar" class="boton grande">Consultar</button>
+        </form>
+      </section>
+
+      <section id="resultado" class="tarjeta oculto">
+        <div class="fila-botones mb" style="justify-content: space-between;">
+          <h2 style="margin: 0;">Su queja</h2>
+          <span id="estado-queja"></span>
+        </div>
+
+        <div class="rejilla">
+          <div class="campo">
+            <label>Categoría</label>
+            <div id="categoria-queja">—</div>
+          </div>
+          <div class="campo">
+            <label>Derivada a</label>
+            <div id="derivada-queja">—</div>
+          </div>
+          <div class="campo">
+            <label>Fecha de envío</label>
+            <div id="fecha-queja">—</div>
+          </div>
+          <div class="campo">
+            <label>Fecha límite de atención</label>
+            <div id="limite-queja">—</div>
+          </div>
+          <div class="campo ancho">
+            <label>Descripción</label>
+            <div id="texto-queja" style="white-space: pre-wrap;">—</div>
+          </div>
+        </div>
+
+        <hr class="separador" />
+
+        <h3>Historial</h3>
+        <ul class="lista-plana" id="historial"></ul>
+
+        <hr class="separador" />
+
+        <h3>Mensajes</h3>
+        <div id="mensajes"></div>
+
+        <div id="panel-respuesta">
+          <div id="aviso-mensaje" class="oculto"></div>
+          <form id="formulario-mensaje">
+            <div class="campo">
+              <label for="mensaje-texto">Responder a la autoridad</label>
+              <textarea id="mensaje-texto" maxlength="4000" style="min-height: 110px;"
+                placeholder="Escriba un mensaje. No incluya datos personales."></textarea>
+            </div>
+            <button type="submit" id="enviar-mensaje" class="boton">Enviar mensaje</button>
+          </form>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="pie">Buzón de quejas · Instituto INCOS</footer>
+  <script type="module" src="/assets/consulta.js"></script>
+</body>
+</html>

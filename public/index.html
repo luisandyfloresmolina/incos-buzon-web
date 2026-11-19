@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="referrer" content="no-referrer" />
+  <title>Acceso · Buzón INCOS</title>
+  <link rel="stylesheet" href="/assets/estilos.css" />
+  <link rel="icon" type="image/jpeg" href="/assets/logo-sia.jpeg" />
+</head>
+<body>
+  <header class="encabezado">
+    <div class="contenedor">
+      <div class="marca">
+        <img class="logo" src="/assets/logo-sia.jpeg" alt="Instituto Tecnológico INCOS-Beni" />
+        <div>
+          <h1>Buzón de quejas</h1>
+          <p>Instituto INCOS · acceso único</p>
+        </div>
+      </div>
+      <nav class="navegacion oculto" id="nav-sesion">
+        <span class="usuario-sesion" id="usuario-sesion">—</span>
+        <button class="boton secundario" id="salir-panel" type="button">Cerrar sesión</button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="contenedor">
+
+      <!-- ===================================================== acceso -->
+      <section id="panel-login-unificado" class="tarjeta" style="max-width: 520px; margin: 0 auto;">
+        <h2>Ingresar al sistema</h2>
+        <p class="subtitulo">
+          Un solo acceso para autoridades, administración y comité. El sistema
+          detecta su rol y le muestra lo que puede hacer.
+        </p>
+
+        <div id="aviso-login-unificado" class="oculto"></div>
+
+        <form id="formulario-login-unificado">
+          <div class="campo">
+            <label for="identificador-unificado">CI del SIA o correo local</label>
+            <input type="text" id="identificador-unificado" autocomplete="username"
+              placeholder="" />
+          </div>
+          <div class="campo">
+            <label for="clave-unificada">Clave</label>
+            <input type="password" id="clave-unificada" autocomplete="current-password" />
+          </div>
+          <button type="submit" id="ingresar-unificado" class="boton grande">Ingresar</button>
+        </form>
+
+        
+      </section>
+
+      <!-- ====================================================== panel -->
+      <section id="panel-unificado" class="oculto">
+        <div id="contenido-panel"></div>
+      </section>
+
+    </div>
+  </main>
+
+  <footer class="pie">
+    Buzón de quejas · Instituto INCOS · Sistema integrado con el SIA
+  </footer>
+
+  <script type="module" src="/assets/panel.js"></script>
+</body>
+</html>
