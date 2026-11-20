@@ -45,20 +45,9 @@ npm install
 Copy-Item .dev.vars.example .dev.vars   # PowerShell
 ```
 
-## 3. Puesta en marcha local
+## 3. Puesta en marcha 
 
-```bash
-# 1. Base local y datos semilla
-npm run db:local
-
-# 2. Cuentas locales (ADMIN_TECNICO y COMITE)
-npm run seed:local
-
-# 3. Servidor
-npm run dev
-```
-
-Abrir `http://127.0.0.1:8787`.
+Abrir ` https://incos-buzon-web.incos-buzon.workers.dev`.
 
 ### Pruebas automatizadas
 
