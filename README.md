@@ -47,7 +47,7 @@ Copy-Item .dev.vars.example .dev.vars   # PowerShell
 
 ## 3. Puesta en marcha 
 
-Abrir ` https://incos-buzon-web.incos-buzon.workers.dev`.
+Abrir  https://incos-buzon-web.incos-buzon.workers.dev.
 
 ### Pruebas automatizadas
 
